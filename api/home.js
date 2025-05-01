@@ -1,5 +1,5 @@
 export default function handler(req, res) {
-    console.log(req.method);
+    res.json({ message: req.method });
     if (req.method === 'GET') {
       // Handle GET request
         res.status(200).json({ message: 'GET: All products listed' });
