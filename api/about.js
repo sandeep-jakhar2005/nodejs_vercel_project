@@ -3,11 +3,10 @@
 // }
 
 export default async function handler(req, res) {
-    res.json(req.body);
     if (req.method === 'GET') {
         try {
             const tenantId = req.body.tenant_id;
-            const apiUrl = `https://example.com/tenants/${tenantId}/clients`;
+            const apiUrl = `https://demo.staff.unifiedfitnessplatform.ai/${tenantId}/clients`;
 
             const response = await fetch(apiUrl, {
                 method: 'GET',
