@@ -1,1 +1,1 @@
-console.log("Vercel project is running!");
+return response("Vercel project is running!");
