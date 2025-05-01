@@ -5,18 +5,15 @@ export default function handler(req, res) {
     } 
     else if (req.method === 'POST') {
       // Handle POST request
-      const { name, price } = req.body;
-      res.status(201).json({ message: 'POST: Product created', data: { name, price } });
+      res.status(201).json({ message: 'POST: Product created' });
     } 
     else if (req.method === 'PUT') {
       // Handle PUT request
-      const { id, name } = req.body;
-      res.status(200).json({ message: `PUT: Product ${id} updated`, updatedName: name });
+      res.status(200).json({ message: `PUT: Product  updated`});
     } 
     else if (req.method === 'DELETE') {
       // Handle DELETE request
-      const { id } = req.query;
-      res.status(200).json({ message: `DELETE: Product ${id} deleted` });
+      res.status(200).json({ message: `DELETE: Product  deleted` });
     } 
     else {
       // Method Not Allowed
