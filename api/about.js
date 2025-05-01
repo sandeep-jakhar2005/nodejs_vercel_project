@@ -3,7 +3,7 @@
 // }
 
 export default async function handler(req, res) {
-    if (req.method === 'GET') {
+    if (req.method === 'POST') {
         try {
             const tenantId = req.body.tenant_id;
             const apiUrl = `https://demo.staff.unifiedfitnessplatform.ai/${tenantId}/clients`;
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         } catch (error) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });
         }
-    } else if (req.method === 'POST') {
+    } else if (req.method === 'GET') {
         res.status(200).json({ message: 'GET: All products listed' });
     } else if (req.method === 'PUT') {
         res.status(200).json({ message: 'PUT: Product updated' });
