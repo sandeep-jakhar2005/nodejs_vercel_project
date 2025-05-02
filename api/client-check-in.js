@@ -49,11 +49,11 @@ export default async function handler(req, res) {
             const responseText1 = response.ok ? "success response" : "failed response";
             res.status(200).send(responseText1);
                         
-            const checkinTime = data.checkin_date_time;
+            // const checkinTime = data.checkin_date_time;
             
-            const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
-            // res.setHeader('Content-Type', 'text/plain');
-            res.status(200).send(responseText);
+            // const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
+            // // res.setHeader('Content-Type', 'text/plain');
+            // res.status(200).send(responseText);
 
             // const contentType = response.headers.get('content-type');
 
