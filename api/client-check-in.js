@@ -22,13 +22,13 @@ export default async function handler(req, res) {
             const tenantId = 1;
 
             if(Reader === '0'){
-                const payload = {
+                 payload = {
                     event_type: "CheckIn",
                     access_status_reason: "",
                     machine_id: "",
                 };
             }else if(Reader === '1'){
-                const payload = {
+                 payload = {
                     event_type: "CheckOut",
                     access_status_reason: "",
                     machine_id: "",
