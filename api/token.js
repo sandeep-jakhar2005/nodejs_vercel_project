@@ -2,7 +2,7 @@
 let cachedToken = null;
 let tokenExpiryTime = null;
 
-export default async function getToken(req, res) {
+export async function getToken(req) {
     if (req.method === 'POST') {
         try {
             if (cachedToken && tokenExpiryTime && Date.now() < tokenExpiryTime) {
