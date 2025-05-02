@@ -9,7 +9,7 @@ export default async function handler(req, res) {
             if (cachedToken && tokenExpiryTime && Date.now() < tokenExpiryTime) {
                 // Token is still valid, use the cached token
                 console.log("Using cached token");
-                return res.status(200).json({ token: cachedToken });  // Or use it in your API request
+                return res.status(200).json({ token: cachedToken, Message: 'Reuse Token'  });  // Or use it in your API request
             }
 
             // Step 2: If no valid cached token, fetch a new token
