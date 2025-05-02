@@ -20,7 +20,8 @@ export default async function handler(req, res) {
 
             const { type, Serial, ID, Reader, Status, Card, Index } = req.query;
             const tenantId = 1;
-
+            
+            let payload = {};
             if(Reader === '0'){
                  payload = {
                     event_type: "CheckIn",
@@ -40,7 +41,7 @@ export default async function handler(req, res) {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(payload),
@@ -51,6 +52,7 @@ export default async function handler(req, res) {
             const checkinTime = data.checkin_date_time;
             
             const responseText = `{ "Card": "${Card}", "Systime": "${Now}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${Now}", "Time": "${checkinTime}", "Note": "Description"}`;
+            res.setHeader('Content-Type', 'text/plain');
             res.status(200).send(responseText);
 
             // const contentType = response.headers.get('content-type');
