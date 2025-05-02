@@ -1,19 +1,18 @@
-// export default function handler(req, res) {
-//     res.status(200).send("Hello World!");
-// }
-
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
-            const tenantId = req.body.tenant_id;
 
-            const apiUrl = `https://demo.staff.unifiedfitnessplatform.ai/tenants/${tenantId}/clients?tenant_id=${tenantId}`;
+            const tenantId = req.body.tenant_id;
+            const clientId = req.body.client_id;
+
+            const apiUrl = `https://demo.staff.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${clientId}/mark_client_checkedin`;
 
             const response = await fetch(apiUrl, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(req.body),
             });
 
             const contentType = response.headers.get('content-type');
@@ -32,13 +31,7 @@ export default async function handler(req, res) {
         } catch (error) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });
         }
-    } else if (req.method === 'GET') {
-        res.status(200).json({ message: 'GET: All products listed' });
-    } else if (req.method === 'PUT') {
-        res.status(200).json({ message: 'PUT: Product updated' });
-    } else if (req.method === 'DELETE') {
-        res.status(200).json({ message: 'DELETE: Product deleted' });
     } else {
-        res.status(405).json({ error: 'Method Not Allowed' });
+        res.status(200).json({ message: 'Method not supported' });
     }
 }
