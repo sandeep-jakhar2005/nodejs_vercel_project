@@ -1,7 +1,7 @@
 import { getToken } from './token';
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
+    if (req.method === 'GET') {
         try {
 
         const { method } = req.query;
@@ -12,8 +12,7 @@ export default async function handler(req, res) {
 
             const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
 
-            res.setHeader('Content-Type', 'text/plain');
-            res.status(200).end(responseText);
+            res.status(200).send(responseText);
 
         }else if(method === 'SearchCardAcs'){
             const token = await getToken(req);
@@ -23,13 +22,13 @@ export default async function handler(req, res) {
 
             let payload = {};
             if(Reader === '0'){
-                 payload = {
+                payload = {
                     event_type: "CheckIn",
                     access_status_reason: "",
                     machine_id: "",
                 };
             }else if(Reader === '1'){
-                 payload = {
+                payload = {
                     event_type: "CheckOut",
                     access_status_reason: "",
                     machine_id: "",
@@ -41,14 +40,18 @@ export default async function handler(req, res) {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(payload),
             });
 
-
             const data = await response.json();
+            if(response.ok){
+                res.status(200).json({ message: 'success response' });
+            }else{
+                res.status(400).json({ message: 'failed response' });
+            }
+                        
             const checkinTime = data.checkin_date_time;
             
             const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
@@ -74,6 +77,6 @@ export default async function handler(req, res) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });
         }
     } else {
-        res.status(405).json({ error: 'Method Not Allowed', message: 'Only POST requests are supported.' });
+        res.status(405).json({ error: 'Method Not Allowed', message: 'Only GET requests are supported.' });
     }
 }
