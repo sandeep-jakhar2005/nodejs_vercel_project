@@ -4,9 +4,11 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
 
-        const { method, Key, Now } = req.query;
+        const { method } = req.query;
         
         if (method === 'GetStatus') {
+
+            const { Key, Now } = req.query;
 
             const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
 
@@ -16,10 +18,24 @@ export default async function handler(req, res) {
         }else if(method === 'SearchCardAcs'){
             const token = await getToken(req);
 
-            const tenantId = req.body.tenant_id;
-            const clientId = req.body.client_id;
+            const { type, Serial, ID, Reader, Status, Card, Index } = req.query;
+            const tenantId = 1;
 
-            const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${clientId}/mark_client_checkedin`;
+            if(Reader === '0'){
+                const payload = {
+                    event_type: "CheckIn",
+                    access_status_reason: "",
+                    machine_id: "",
+                };
+            }else if(Reader === '1'){
+                const payload = {
+                    event_type: "CheckOut",
+                    access_status_reason: "",
+                    machine_id: "",
+                };
+            }
+
+            const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -27,19 +43,28 @@ export default async function handler(req, res) {
                     'Content-Type': 'text/plain',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(req.body),
+                body: JSON.stringify(payload),
             });
 
-            const contentType = response.headers.get('content-type');
 
-            if (contentType && contentType.includes('application/json')) {
-                const data = await response.json();
-                res.status(response.status).json(data);
-            } else {
-                const errorText = await response.text();
-                res.setHeader('Content-Type', 'text/plain');
-                res.status(200).end(errorText)
-            }
+            const data = await response.json();
+            const checkinTime = data.checkin_date_time;
+            
+            const responseText = `{ "Card": "${Card}", "Systime": "${Now}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${Now}", "Time": "${checkinTime}", "Note": "Description"}`;
+            res.status(200).send(responseText);
+
+            // const contentType = response.headers.get('content-type');
+
+            // if (contentType && contentType.includes('application/json')) {
+            //     const data = await response.json();
+            //     res.status(response.status).json(data);
+            // } else {
+            //     const errorText = await response.text();
+            //     res.setHeader('Content-Type', 'text/plain');
+            //     res.status(200).end(errorText)
+            // }
+        }else{
+            res.status(400).json({ error: 'Invalid method', message: 'The provided method is not supported.' });
         }
 
             
@@ -47,6 +72,6 @@ export default async function handler(req, res) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });
         }
     } else {
-        res.status(200).json({ message: 'Method not supported' });
+        res.status(405).json({ error: 'Method Not Allowed', message: 'Only POST requests are supported.' });
     }
 }
