@@ -7,8 +7,6 @@ export default async function handler(req, res) {
 
             const token = await getToken(req);
 
-            res.status(500).json({ error: 'token found', token: token });
-
             const tenantId = req.body.tenant_id;
             const clientId = req.body.client_id;
 
