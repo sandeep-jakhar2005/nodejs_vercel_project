@@ -11,6 +11,12 @@ export async function getToken(req) {
                 return cachedToken;
             }
 
+            const payload = {
+                email_id: "vimit@fitnessforce.com",
+                password: "Grip@123",
+                company_uuid: "4b802a49-c19d-11ef-96d5-0a25444c3ba5",
+            };
+
             const apiUrl = `https://api.unifiedfitnessplatform.ai/token`;
 
             const response = await fetch(apiUrl, {
@@ -18,7 +24,7 @@ export async function getToken(req) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(req.body),
+                body: JSON.stringify(payload),
             });
 
             const contentType = response.headers.get('content-type');
