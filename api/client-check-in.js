@@ -45,15 +45,19 @@ export default async function handler(req, res) {
                 body: JSON.stringify(payload),
             });
 
+            if (!response.ok) {
+                // Handle error if fetch fails
+                return res.status(500).json({ error: 'Failed to check in the client' });
+            }
             const data = await response.json();
             const responseText1 = response.ok ? "success response" : "failed response";
             res.status(200).send(responseText1);
                         
-            // const checkinTime = data.checkin_date_time;
+            const checkinTime = data.checkin_date_time;
             
-            // const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
-            // // res.setHeader('Content-Type', 'text/plain');
-            // res.status(200).send(responseText);
+            const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
+            // res.setHeader('Content-Type', 'text/plain');
+            res.status(200).send(responseText);
 
             // const contentType = response.headers.get('content-type');
 
