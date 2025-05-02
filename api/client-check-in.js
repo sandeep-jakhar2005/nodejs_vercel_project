@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
             const { type, Serial, ID, Reader, Status, Card, Index } = req.query;
             const tenantId = 1;
-            
+
             let payload = {};
             if(Reader === '0'){
                  payload = {
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
             const data = await response.json();
             const checkinTime = data.checkin_date_time;
             
-            const responseText = `{ "Card": "${Card}", "Systime": "${Now}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${Now}", "Time": "${checkinTime}", "Note": "Description"}`;
+            const responseText = `{ "Card": "${Card}", "Systime": "${Now}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "${checkinTime}", "Note": "Description"}`;
             res.setHeader('Content-Type', 'text/plain');
             res.status(200).send(responseText);
 
