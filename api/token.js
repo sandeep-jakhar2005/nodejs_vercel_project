@@ -2,6 +2,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
 
+            const body = req.body;
             const apiUrl = `https://api.unifiedfitnessplatform.ai/token`;
 
             const response = await fetch(apiUrl, {
@@ -9,6 +10,7 @@ export default async function handler(req, res) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(req.body),
             });
 
             const contentType = response.headers.get('content-type');
