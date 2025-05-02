@@ -1,7 +1,7 @@
 import { getToken } from './token';
 
 export default async function handler(req, res) {
-    if (req.method === 'GET') {
+    if (req.method === 'POST') {
         try {
             const { method } = req.query;
 
