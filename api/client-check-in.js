@@ -46,13 +46,8 @@ export default async function handler(req, res) {
             });
 
             const data = await response.json();
-            if (response.ok) {
-                // Success response
-                return res.status(200).json({ message: 'success response' });
-            } else {
-                // Failed response
-                return res.status(400).json({ message: 'failed response' });
-            }
+            const responseText1 = response.ok ? "success response" : "failed response";
+            res.status(200).send(responseText1);
                         
             const checkinTime = data.checkin_date_time;
             
