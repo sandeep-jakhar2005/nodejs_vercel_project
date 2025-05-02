@@ -3,7 +3,7 @@ let cachedToken = null;
 let tokenExpiryTime = null;
 
 export async function getToken(req) {
-    if (req.method === 'POST') {
+    if (req.method === 'GET') {
         try {
             if (cachedToken && tokenExpiryTime && Date.now() < tokenExpiryTime) {
                 console.log("Using cached token");

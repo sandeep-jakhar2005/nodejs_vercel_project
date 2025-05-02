@@ -1,4 +1,4 @@
-// import { getToken } from './token';
+import { getToken } from './token';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
             }
 
             else if (method === 'SearchCardAcs') {
-                // const token = await getToken(req);
+                const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
                 const tenantId = 1;
 
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer dtgfdhhg`,
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(payload),
