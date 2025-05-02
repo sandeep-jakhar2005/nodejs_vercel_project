@@ -7,7 +7,8 @@ export default async function handler(req, res) {
         try {
             if (cachedToken && tokenExpiryTime && Date.now() < tokenExpiryTime) {
                 console.log("Using cached token");
-                return res.status(200).json({ token: cachedToken, Message: 'Reuse Token'  }); 
+                // return res.status(200).json({ token: cachedToken, Message: 'Reuse Token'  }); 
+                return cachedToken;
             }
 
             const apiUrl = `https://api.unifiedfitnessplatform.ai/token`;
@@ -28,7 +29,8 @@ export default async function handler(req, res) {
                 cachedToken = token;
                 tokenExpiryTime = 1746525015 * 1000;
 
-                res.status(response.status).json({ token: cachedToken, expires_in: expires_in });
+                // res.status(response.status).json({ token: cachedToken, expires_in: expires_in });
+                return cachedToken;
             } else {
                 const errorText = await response.text();
                 res.status(response.status).send({
