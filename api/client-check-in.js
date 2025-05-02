@@ -1,14 +1,13 @@
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
-
-            const tenantId = req.body.tenant_id;
             const clientId = req.body.client_id;
 
-            const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${clientId}/mark_client_checkedin`;
+            // const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${clientId}/mark_client_checkedin`;
+            const apiUrl = `https://api.unifiedfitnessplatform.ai//clients/${clientId}`;
 
             const response = await fetch(apiUrl, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
