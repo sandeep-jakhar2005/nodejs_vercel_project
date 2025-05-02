@@ -33,7 +33,7 @@ export default async function handler(req, res) {
                 tokenExpiryTime = Date.now() + expires_in * 1000;  // Convert expires_in from seconds to milliseconds
 
                 // Send the token response
-                res.status(response.status).json({ token: cachedToken, expires_in: expires_in });
+                res.status(response.status).json({ token5: cachedToken, expires_in: expires_in });
             } else {
                 const errorText = await response.text();
                 res.status(response.status).send({
