@@ -7,8 +7,8 @@ export async function getToken(req) {
         try {
             if (cachedToken && tokenExpiryTime && Date.now() < tokenExpiryTime) {
                 console.log("Using cached token");
-                // return res.status(200).json({ token: cachedToken, Message: 'Reuse Token'  }); 
-                return cachedToken;
+                isNew = false;  // Token is reused (old)
+                return { token: cachedToken, isNew };
             }
 
             const payload = {
@@ -36,7 +36,9 @@ export async function getToken(req) {
                 tokenExpiryTime = 1746525015 * 1000;
 
                 // res.status(response.status).json({ token: cachedToken, expires_in: expires_in });
-                return cachedToken;
+                isNew = true;  // This is a new token
+
+                return { token: cachedToken, isNew };
             } else {
                 const errorText = await response.text();
                 res.status(response.status).send({

@@ -5,7 +5,7 @@ export default async function handler(req, res) {
         try {
 
 
-            const token = await getToken(req);
+            const { token, isNew } = await getToken(req);
 
             const tenantId = req.body.tenant_id;
             const clientId = req.body.client_id;
@@ -25,7 +25,11 @@ export default async function handler(req, res) {
 
             if (contentType && contentType.includes('application/json')) {
                 const data = await response.json();
-                res.status(response.status).json(data);
+                // res.status(response.status).json(data);
+                res.status(response.status).json({
+                    data,
+                    tokenStatus: isNew ? 'New token generated' : 'Reusing cached token'
+                });
             } else {
                 const errorText = await response.text();
                 res.status(response.status).send({
