@@ -51,7 +51,7 @@ export default async function handler(req, res) {
                     AcsRes = "1";
                 }
 
-                const responseText = `{ "Card": "${Card}", "Systime": "${Now}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${AcsRes}", "Time": "${checkinTime}", "Note": "Description"}`;
+                const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
                 res.setHeader('Content-Type', 'text/plain');
                 return res.status(200).send(responseText);
             }
