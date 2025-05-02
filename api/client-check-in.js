@@ -4,6 +4,8 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
 
+            const data = req.query;
+            res.status(200).text(data);
 
             const token = await getToken(req);
 
