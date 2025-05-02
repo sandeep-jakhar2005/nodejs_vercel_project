@@ -4,12 +4,16 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
 
-            const { name, email } = req.query;
-            const responseText = `Name: ${name}, Email: ${email}`;
-    
+        const { method, Key, Now } = req.query;
+        
+        if (method === 'GetStatus') {
+
+            const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
+
             res.setHeader('Content-Type', 'text/plain');
             res.status(200).end(responseText);
 
+        }else if(method === 'SearchCardAcs'){
             const token = await getToken(req);
 
             const tenantId = req.body.tenant_id;
@@ -20,7 +24,7 @@ export default async function handler(req, res) {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'text/plain',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(req.body),
@@ -33,11 +37,11 @@ export default async function handler(req, res) {
                 res.status(response.status).json(data);
             } else {
                 const errorText = await response.text();
-                res.status(response.status).send({
-                    error: 'API did not return JSON',
-                    response: errorText
-                });
+                res.setHeader('Content-Type', 'text/plain');
+                res.status(200).end(errorText)
             }
+        }
+
             
         } catch (error) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });
