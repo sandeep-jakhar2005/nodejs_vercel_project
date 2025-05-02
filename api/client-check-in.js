@@ -52,7 +52,7 @@ export default async function handler(req, res) {
             const checkinTime = data.checkin_date_time;
             
             const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
-            res.setHeader('Content-Type', 'text/plain');
+            // res.setHeader('Content-Type', 'text/plain');
             res.status(200).send(responseText);
 
             // const contentType = response.headers.get('content-type');
