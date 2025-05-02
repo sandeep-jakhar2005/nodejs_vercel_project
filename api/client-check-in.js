@@ -51,7 +51,7 @@ export default async function handler(req, res) {
             const data = await response.json();
             const checkinTime = data.checkin_date_time;
             
-            const responseText = `{ "Card": "${Card}", "Systime": "${Now}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "${checkinTime}", "Note": "Description"}`;
+            const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "1", "Time": "5", "Note": "Description"}`;
             res.setHeader('Content-Type', 'text/plain');
             res.status(200).send(responseText);
 
