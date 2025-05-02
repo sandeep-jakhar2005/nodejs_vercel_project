@@ -34,11 +34,12 @@ export async function getToken(req) {
                 const { token } = data;
 
                 cachedToken = token;
-                tokenExpiryTime = 60 * 1000;
+                // tokenExpiryTime = 1746525015 * 1000;
+                tokenExpiryTime = Date.now() + 60 * 1000;
 
                 // res.status(response.status).json({ token: cachedToken, expires_in: expires_in });
                 // return cachedToken;
-                isNewToken = true; // New token generated
+                 isNewToken = true; // New token generated
 
                 return { token: cachedToken, isNewToken }; 
             } else {
