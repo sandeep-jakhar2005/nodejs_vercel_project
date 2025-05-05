@@ -1,8 +1,24 @@
 import { getToken } from './token';
+import fs from 'fs';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
+
+            const trackingInfo = {
+                timestamp: new Date().toISOString(),
+                ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+                method: req.method,
+                url: req.url,
+                query: req.query,
+                headers: req.headers
+            };
+
+            fs.appendFile('request-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
+                if (err) console.error('Log file write error:', err);
+            });
+            
+
             const { method } = req.query;
 
             if (method === 'GetStatus') {
@@ -11,7 +27,7 @@ export default async function handler(req, res) {
                 return res.status(200).send(responseText);
             }
 
-            else if (method === 'SearchCardAcs') {
+            if (method === 'SearchCardAcs') {
                 const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
                 const tenantId = 1;
@@ -47,7 +63,7 @@ export default async function handler(req, res) {
 
                 if (response.ok) {
                     const data = await response.json();
-                    checkinTime = data.checkin_date_time || "";
+                    checkinTime = data.checkin_date_time;
                     AcsRes = "1";
                 }
 
@@ -56,9 +72,7 @@ export default async function handler(req, res) {
                 return res.status(200).send(responseText);
             }
 
-            else {
-                return res.status(400).json({ error: 'Invalid method', message: 'The provided method is not supported.' });
-            }
+            return res.status(400).json({ error: 'Invalid method', message: 'The provided method is not supported.' });
 
         } catch (error) {
             return res.status(500).json({ error: 'Something went wrong', details: error.message });
