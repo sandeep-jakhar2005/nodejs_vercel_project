@@ -39,10 +39,8 @@ export async function getToken(req) {
                 return cachedToken;
             } else {
                 const errorText = await response.text();
-                res.status(response.status).send({
-                    error: 'API did not return JSON',
-                    response: errorText
-                });
+                console.error('API did not return JSON:', errorText);
+                throw new Error('API did not return JSON: ' + errorText);
             }
         } catch (error) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });

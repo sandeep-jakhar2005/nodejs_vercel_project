@@ -62,10 +62,10 @@ export default async function handler(req, res) {
                 let AcsRes = "0";
 
                // response log file
-                const result = await response.json();
+                const data = await response.json();
                 const trackingInfo = {
                     timestamp: new Date().toISOString(),
-                    data: result,
+                    data: data,
                 };
             
                 fs.appendFile('response-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
@@ -73,7 +73,6 @@ export default async function handler(req, res) {
                 });
 
                 if (response.ok) {
-                    const data = await response.json();
                     checkinTime = data.checkin_date_time || "";
                     AcsRes = "1";
                 }
