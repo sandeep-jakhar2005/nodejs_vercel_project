@@ -31,8 +31,9 @@ export async function getToken(req) {
                 const data = await response.json();
                 const { token } = data;
 
+                const expiryDurationInMs = 100 * 60 * 60 * 1000;
                 cachedToken = token;
-                tokenExpiryTime = 1746525015 * 1000;
+                tokenExpiryTime = Date.now() + expiryDurationInMs;
 
                 // res.status(response.status).json({ token: cachedToken, expires_in: expires_in });
                 return cachedToken;
@@ -46,48 +47,5 @@ export async function getToken(req) {
         } catch (error) {
             res.status(500).json({ error: 'Something went wrong', details: error.message });
         }
-    } else {
-        res.status(200).json({ message: 'Method not supported' });
     }
 }
-
-
-
-
-
-
-
-
-// export default async function handler(req, res) {
-//     if (req.method === 'POST') {
-//         try {
-
-//             const apiUrl = `https://api.unifiedfitnessplatform.ai/token`;
-
-//             const response = await fetch(apiUrl, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify(req.body),
-//             });
-
-//             const contentType = response.headers.get('content-type');
-
-//             if (contentType && contentType.includes('application/json')) {
-//                 const data = await response.json();
-//                 res.status(response.status).json(data);
-//             } else {
-//                 const errorText = await response.text();
-//                 res.status(response.status).send({
-//                     error: 'API did not return JSON',
-//                     response: errorText
-//                 });
-//             }
-//         } catch (error) {
-//             res.status(500).json({ error: 'Something went wrong', details: error.message });
-//         }
-//     }else{
-//         res.status(200).json({ message: 'Method not supported' });
-//     }
-// }
