@@ -1,4 +1,4 @@
-import { getToken } from './token';
+import { getToken } from './token.js';
 import fs from 'fs';
 
 export default async function handler(req, res) {
@@ -7,27 +7,26 @@ export default async function handler(req, res) {
 
             const trackingInfo = {
                 timestamp: new Date().toISOString(),
-                ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-                method: req.method,
                 url: req.url,
                 query: req.query,
-                headers: req.headers
             };
 
             fs.appendFile('request-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
                 if (err) console.error('Log file write error:', err);
             });
-            
+
+            console.log('req.query:', req.query);
 
             const { method } = req.query;
 
             if (method === 'GetStatus') {
                 const { Key, Now } = req.query;
                 const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
-                return res.status(200).send(responseText);
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                return res.end(responseText);
             }
 
-            if (method === 'SearchCardAcs') {
+            else if (method === 'SearchCardAcs') {
                 const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
                 const tenantId = 1;
@@ -63,21 +62,25 @@ export default async function handler(req, res) {
 
                 if (response.ok) {
                     const data = await response.json();
-                    checkinTime = data.checkin_date_time;
+                    checkinTime = data.checkin_date_time || "";
                     AcsRes = "1";
                 }
 
                 const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
-                res.setHeader('Content-Type', 'text/plain');
-                return res.status(200).send(responseText);
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                return res.end(responseText);
+            }
+            else {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                return res.end(JSON.stringify({ error: 'Invalid method', message: 'The provided method is not supported.' }));
             }
 
-            return res.status(400).json({ error: 'Invalid method', message: 'The provided method is not supported.' });
-
         } catch (error) {
-            return res.status(500).json({ error: 'Something went wrong', details: error.message });
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: 'Something went wrong', details: error.message }));
         }
     } else {
-        return res.status(405).json({ error: 'Method Not Allowed', message: 'Only GET requests are supported.' });
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Method Not Allowed', message: 'Only GET requests are supported.' }));
     }
 }
