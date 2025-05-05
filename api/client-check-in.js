@@ -1,4 +1,4 @@
-import { getToken } from './token';
+import { getToken } from './token.js';
 import fs from 'fs';
 
 export default async function handler(req, res) {
