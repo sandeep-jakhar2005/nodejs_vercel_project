@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 
 let cachedToken = null;
 let tokenExpiryTime = null;
@@ -6,7 +5,6 @@ let tokenExpiryTime = null;
 export async function getToken(req) {
     if (req.method === 'GET') {
         try {
-
             if (cachedToken && tokenExpiryTime && Date.now() < tokenExpiryTime) {
                 console.log("Using cached token");
                 return cachedToken;
@@ -27,7 +25,6 @@ export async function getToken(req) {
                 },
                 body: JSON.stringify(payload),
             });
-
 
             const contentType = response.headers.get('content-type');
             if (contentType && contentType.includes('application/json')) {
