@@ -1,0 +1,3 @@
+{"timestamp":"2025-05-05T07:38:37.709Z","data":{"id":11937867,"access_status":"Granted","access_status_reason":"","checkin_date_time":"2025-05-05T07:38:37.6558137Z","source_type":"Manual"}}
+{"timestamp":"2025-05-05T07:40:45.485Z","data":{"id":11937892,"access_status":"Granted","access_status_reason":"","checkin_date_time":"2025-05-05T07:40:45.4215288Z","source_type":"Manual"}}
+{"timestamp":"2025-05-05T07:40:50.078Z","data":{"id":11937897,"access_status":"Granted","access_status_reason":"","checkin_date_time":"2025-05-05T07:40:50.0344331Z","source_type":"Manual"}}

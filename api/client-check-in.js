@@ -5,6 +5,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
 
+           
             const trackingInfo = {
                 timestamp: new Date().toISOString(),
                 url: req.url,
@@ -15,12 +16,15 @@ export default async function handler(req, res) {
                 if (err) console.error('Log file write error:', err);
             });
 
+            console.log('req.query:', req.query);
+
             const { method } = req.query;
-            
+
             if (method === 'GetStatus') {
                 const { Key, Now } = req.query;
                 const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
-                return res.status(200).send(responseText);
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                return res.end(responseText);
             }
 
             else if (method === 'SearchCardAcs') {
@@ -57,14 +61,13 @@ export default async function handler(req, res) {
                 let checkinTime = "";
                 let AcsRes = "0";
 
-                 // response log file
+               // response log file
+                const result = await response.json();
                 const trackingInfo = {
                     timestamp: new Date().toISOString(),
-                    data: await response.json(),
+                    data: result,
                 };
-                
-
-    
+            
                 fs.appendFile('response-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
                     if (err) console.error('Log file write error:', err);
                 });
@@ -76,18 +79,20 @@ export default async function handler(req, res) {
                 }
 
                 const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
-                res.setHeader('Content-Type', 'text/plain');
-                return res.status(200).send(responseText);
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                return res.end(responseText);
             }
-
             else {
-                return res.status(400).json({ error: 'Invalid method', message: 'The provided method is not supported.' });
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                return res.end(JSON.stringify({ error: 'Invalid method', message: 'The provided method is not supported.' }));
             }
 
         } catch (error) {
-            return res.status(500).json({ error: 'Something went wrong', details: error.message });
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: 'Something went wrong', details: error.message }));
         }
     } else {
-        return res.status(405).json({ error: 'Method Not Allowed', message: 'Only GET requests are supported.' });
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Method Not Allowed', message: 'Only GET requests are supported.' }));
     }
 }
