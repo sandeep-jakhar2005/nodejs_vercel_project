@@ -21,22 +21,30 @@ export default async function handler(req, res) {
                 const tenantId = 1;
 
                 let payload = {};
-                if (Reader === '0') {
-                    payload = {
-                        event_type: "CheckIn",
-                        access_status_reason: "",
-                        machine_id: "",
-                    };
-                } else if (Reader === '1') {
-                    payload = {
-                        event_type: "CheckOut",
-                        access_status_reason: "",
-                        machine_id: "",
-                    };
-                }
+                payload = {
+                    event_type: "CheckIn",
+                    access_status_reason: "",
+                    machine_id: "",
+                };
+                
+                // if (Reader === '0') {
+                //     payload = {
+                //         event_type: "CheckIn",
+                //         access_status_reason: "",
+                //         machine_id: "",
+                //     };
+                // } else if (Reader === '1') {
+                //     payload = {
+                //         event_type: "CheckOut",
+                //         access_status_reason: "",
+                //         machine_id: "",
+                //     };
+                // }
 
 
-                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
+
+                // const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
+                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/1/clients/31131/mark_client_checkedin`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
