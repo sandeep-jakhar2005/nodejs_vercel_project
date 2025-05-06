@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
 
-           
             const trackingInfo = {
                 timestamp: new Date().toISOString(),
                 url: req.url,
@@ -15,19 +14,18 @@ export default async function handler(req, res) {
             fs.appendFile('request-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
                 if (err) console.error('Log file write error:', err);
             });
-
-            console.log('req.query:', req.query);
-
+            
             const { method } = req.query;
 
             if (method === 'GetStatus') {
+
                 const { Key, Now } = req.query;
                 const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 return res.end(responseText);
-            }
 
-            else if (method === 'SearchCardAcs') {
+            }else if (method === 'SearchCardAcs') {
+
                 const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
                 const tenantId = 1;
@@ -46,6 +44,7 @@ export default async function handler(req, res) {
                         machine_id: "",
                     };
                 }
+
 
                 const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
 
@@ -95,3 +94,5 @@ export default async function handler(req, res) {
         return res.end(JSON.stringify({ error: 'Method Not Allowed', message: 'Only GET requests are supported.' }));
     }
 }
+
+
