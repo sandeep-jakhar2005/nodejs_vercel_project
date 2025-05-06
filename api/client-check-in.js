@@ -4,16 +4,6 @@ import fs from 'fs';
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
-
-            const trackingInfo = {
-                timestamp: new Date().toISOString(),
-                url: req.url,
-                query: req.query,
-            };
-
-            fs.appendFile('request-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
-                if (err) console.error('Log file write error:', err);
-            });
             
             const { method } = req.query;
 
@@ -60,16 +50,7 @@ export default async function handler(req, res) {
                 let checkinTime = "";
                 let AcsRes = "0";
 
-               // response log file
                 const data = await response.json();
-                const trackingInfo = {
-                    timestamp: new Date().toISOString(),
-                    data: data,
-                };
-            
-                fs.appendFile('response-log.txt', JSON.stringify(trackingInfo) + '\n', (err) => {
-                    if (err) console.error('Log file write error:', err);
-                });
 
                 if (response.ok) {
                     checkinTime = data.checkin_date_time || "";
