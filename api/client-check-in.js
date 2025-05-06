@@ -26,7 +26,7 @@ export default async function handler(req, res) {
                     access_status_reason: "",
                     machine_id: "",
                 };
-                
+
                 // if (Reader === '0') {
                 //     payload = {
                 //         event_type: "CheckIn",
@@ -65,9 +65,13 @@ export default async function handler(req, res) {
                     AcsRes = "1";
                 }
 
-                const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
+                const responseText = `{ "Card": "31131", "Systime": "2025-05-06T10:59:12.283209Z", "Voice": "Voice description", "ActIndex": "0", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 return res.end(responseText);
+
+                // const responseText = `{ "Card": "${Card}", "Systime": "${checkinTime}", "Voice": "Voice description", "ActIndex": "${Reader}", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
+                // res.writeHead(200, { 'Content-Type': 'text/plain' });
+                // return res.end(responseText);
             }
             else {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
