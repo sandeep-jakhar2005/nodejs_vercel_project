@@ -10,7 +10,9 @@ export default async function handler(req, res) {
             if (method === 'GetStatus') {
 
                 const { Key, Now } = req.query;
-                const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
+                // const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
+                const responseText = `DATA={ "Key": "543210", "Now": "201611261517376" }`;
+                
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 return res.end(responseText);
 
@@ -19,6 +21,8 @@ export default async function handler(req, res) {
                 const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
                 const tenantId = 1;
+
+                
 
                 let payload = {};
                 payload = {
