@@ -67,7 +67,9 @@ export default async function handler(req, res) {
 
                 const date = new Date(input);
                 // Check for invalid date
-
+                   if (isNaN(date.getTime())) {
+                        throw new Error('Invalid date');
+                    }
                 // if (isNaN(date.getTime())) {
                 //     try {
                 //         // More robust fallback for invalid dates
