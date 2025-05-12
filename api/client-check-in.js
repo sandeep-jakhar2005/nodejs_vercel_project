@@ -87,7 +87,7 @@ export default async function handler(req, res) {
                 }
 
                 // const responseText = `{ "Card": "31131", "Systime": "2025-05-06T10:59:12.283209Z", "Voice": "刷卡测试语音", "ActIndex": "1", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
-                const responseText = `{"Card":"31131","Voice":"--","ActIndex":"1","AcsRes":"1","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+                const responseText = `{"Card":"31131","Voice":"--","ActIndex":"1","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 return res.end(responseText);
 
