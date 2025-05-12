@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
 
                 // const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
-                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/1/clients/23238051/mark_client_checkedin`;
+                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/1/clients/2323805/mark_client_checkedin`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -67,18 +67,7 @@ export default async function handler(req, res) {
                 const input = data.checkin_date_time;
 
                 const date = new Date(input);
-                // Check for invalid date
-                try {
-                    
-                    // Validate date
-                    if (isNaN(date.getTime())) {
-                        throw new Error('Invalid date');
-                    }
-                } catch (error) {
-                    // Fallback to current time if parsing fails
-                    date = new Date();
-                    console.warn('Invalid date provided, using current time', error);
-                }
+
                 // if (isNaN(date.getTime())) {
                 //     try {
                 //         // More robust fallback for invalid dates
