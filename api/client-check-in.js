@@ -68,9 +68,16 @@ export default async function handler(req, res) {
 
                 const date = new Date(input);
                 // Check for invalid date
-                if (isNaN(date.getTime())) {
-                        date = new Date();
-                        throw new Error(date);
+                try {
+                    
+                    // Validate date
+                    if (isNaN(date.getTime())) {
+                        throw new Error('Invalid date');
+                    }
+                } catch (error) {
+                    // Fallback to current time if parsing fails
+                    date = new Date();
+                    console.warn('Invalid date provided, using current time', error);
                 }
                 // if (isNaN(date.getTime())) {
                 //     try {
