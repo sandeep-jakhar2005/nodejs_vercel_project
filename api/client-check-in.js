@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 
 
                 // const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
-                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/1/clients/2323805/mark_client_checkedin`;
+                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/1/clients/23238051/mark_client_checkedin`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
