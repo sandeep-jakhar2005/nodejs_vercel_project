@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
                 const { Key, Now } = req.query;
                 // const responseText = `DATA={ "Key": "${Key}", "Now": "${Now}" }`;
-                const responseText = `DATA={ "Key": "543210", "Now": "201611261517376" }`;
+                const responseText = `{ "Key": "543210", "Now": "201611261517376" }`;
                 
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 return res.end(responseText);
