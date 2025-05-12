@@ -67,11 +67,11 @@ export default async function handler(req, res) {
 
                 const date = new Date(input);
                 // Check for invalid date
-                if (isNaN(date.getTime())) {
-                    // Use Saudi Arabia time as fallback (UTC+3)
-                    const saudiTime = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Riyadh" }));
-                    date = saudiTime;
-                }
+                // if (isNaN(date.getTime())) {
+                //     // Use Saudi Arabia time as fallback (UTC+3)
+                //     const saudiTime = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Riyadh" }));
+                //     date = saudiTime;
+                // }
 
                 // Format manually
                 const formatted = date.getFullYear() + '-' +
