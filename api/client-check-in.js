@@ -68,7 +68,7 @@ export default async function handler(req, res) {
                 const date = new Date(input);
                 // Check for invalid date
 
-                if (isNaN(date.getTime())) {
+                if (isNaN(date.getHours())) {
                     try {
                         // More robust fallback for invalid dates
                         const saudiTime = new Date().toLocaleString("en-US", { 
