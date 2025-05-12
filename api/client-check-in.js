@@ -66,6 +66,12 @@ export default async function handler(req, res) {
                 const input = data.checkin_date_time;
 
                 const date = new Date(input);
+                // Check for invalid date
+                if (isNaN(date.getTime())) {
+                    // Use Saudi Arabia time as fallback (UTC+3)
+                    const saudiTime = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Riyadh" }));
+                    date = saudiTime;
+                }
 
                 // Format manually
                 const formatted = date.getFullYear() + '-' +
@@ -81,7 +87,7 @@ export default async function handler(req, res) {
                 }
 
                 // const responseText = `{ "Card": "31131", "Systime": "2025-05-06T10:59:12.283209Z", "Voice": "刷卡测试语音", "ActIndex": "1", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
-                const responseText = `{"Card":"2323805","Voice":"--","ActIndex":"1","AcsRes":"1","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+                const responseText = `{"Card":"31131","Voice":"--","ActIndex":"1","AcsRes":"${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 return res.end(responseText);
 
