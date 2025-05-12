@@ -68,6 +68,46 @@ export default async function handler(req, res) {
 
                 const date = new Date(input);
 
+                try {
+    
+    // Check if date is invalid (NaN)
+            if (isNaN(date.getTime())) {
+                // Use Saudi Arabia time as fallback (UTC+3)
+                const saudiTimeOptions = { 
+                    timeZone: "Asia/Riyadh",
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false 
+                };
+                
+                const saudiTimeString = new Date().toLocaleString("en-US", saudiTimeOptions);
+                date = new Date(saudiTimeString);
+                
+                console.warn('Invalid input date. Fallback to Saudi Arabia time:', saudiTimeString);
+            }
+        } catch (error) {
+            // Absolute fallback to Saudi Arabia time if parsing completely fails
+            const saudiTimeOptions = { 
+                timeZone: "Asia/Riyadh",
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false 
+            };
+            
+            const saudiTimeString = new Date().toLocaleString("en-US", saudiTimeOptions);
+            date = new Date(saudiTimeString);
+            
+            console.warn('Date parsing failed completely. Fallback to Saudi Arabia time:', saudiTimeString);
+        }
+
                 // if (isNaN(date.getTime())) {
                 //     try {
                 //         // More robust fallback for invalid dates
