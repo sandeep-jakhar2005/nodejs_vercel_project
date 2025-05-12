@@ -63,12 +63,17 @@ export default async function handler(req, res) {
                 let AcsRes = "0";
 
                 const data = await response.json();
-
-                const dayjs = require('dayjs');
-
                 const input = data.checkin_date_time;
-                // dayjs handles the microseconds automatically
-                const formatted = dayjs(input).format('YYYY-MM-DD HH:mm:ss');
+
+                const date = new Date(input);
+
+                // Format manually
+                const formatted = date.getFullYear() + '-' +
+                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                String(date.getDate()).padStart(2, '0') + ' ' +
+                String(date.getHours()).padStart(2, '0') + ':' +
+                String(date.getMinutes()).padStart(2, '0') + ':' +
+                String(date.getSeconds()).padStart(2, '0');
 
                 if (response.ok) {
                     checkinTime = data.checkin_date_time || "";
