@@ -1,3 +1,4 @@
+import { error } from 'console';
 import { getToken } from './token.js';
 import fs from 'fs';
 
@@ -67,9 +68,20 @@ export default async function handler(req, res) {
 
                 const date = new Date(input);
                 // Check for invalid date
-                   if (isNaN(date.getTime())) {
-                        throw new Error('Invalid date');
-                    }
+                if (isNaN(date.getTime())) {
+                            const saudiTime = new Date().toLocaleString("en-US", { 
+                            timeZone: "Asia/Riyadh",
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: false 
+                        });
+                        date = new Date(saudiTime);
+                        throw new Error(date);
+                }
                 // if (isNaN(date.getTime())) {
                 //     try {
                 //         // More robust fallback for invalid dates
