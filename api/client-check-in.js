@@ -21,6 +21,12 @@ export default async function handler(req, res) {
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
 
                 console.log('Card Number:', Card);
+                const cardBase64 = "MjM1MTYxNg==";
+                const decoded = Buffer.from(cardBase64, 'base64').toString('utf-8');
+                const cardNumber = parseInt(decoded);
+
+                console.log("Decoded (string):", decoded);
+                console.log("Card Number (number):", cardNumber);
 
                 const tenantId = 232;
                 let payload = {};
