@@ -21,12 +21,9 @@ export default async function handler(req, res) {
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
 
                 console.log('Card Number:', Card);
-                const cardBase64 = "MjM1MTYxNg==";
+                const cardBase64 = Card;
                 const decoded = Buffer.from(cardBase64, 'base64').toString('utf-8');
-                const cardNumber = parseInt(decoded);
 
-                console.log("Decoded (string):", decoded);
-                console.log("Card Number (number):", cardNumber);
 
                 const tenantId = 232;
                 let payload = {};
@@ -47,7 +44,7 @@ export default async function handler(req, res) {
                     };
                 }
 
-                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
+                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${decoded}/mark_client_checkedin`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -109,11 +106,11 @@ export default async function handler(req, res) {
                 
                 if (response.ok) {
                     AcsRes = "1";
-                    const responseText = `{"Card":"${Card}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+                    const responseText = `{"Card":"${decoded}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
                     res.writeHead(200, { 'Content-Type': 'text/plain' });
                     return res.end(responseText);
                 }else{
-                    const responseText = `{"Card":"${Card}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+                    const responseText = `{"Card":"${decoded}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
                     res.writeHead(200, { 'Content-Type': 'text/plain' });
                     return res.end(responseText);
                 }
