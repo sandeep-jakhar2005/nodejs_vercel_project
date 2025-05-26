@@ -19,7 +19,10 @@ export default async function handler(req, res) {
 
                 const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
-                const tenantId = 1;
+
+                console.log('Card Number:', Card);
+
+                const tenantId = 232;
                 let payload = {};
                 let ActIndex = "";
                 if (Reader === '0') {
@@ -38,7 +41,7 @@ export default async function handler(req, res) {
                     };
                 }
 
-                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/2323805/mark_client_checkedin`;
+                const apiUrl = `https://api.unifiedfitnessplatform.ai/tenants/${tenantId}/clients/${Card}/mark_client_checkedin`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -97,22 +100,21 @@ export default async function handler(req, res) {
                     String(date.getMinutes()).padStart(2, '0') + ':' +
                     String(date.getSeconds()).padStart(2, '0');
 
+                
                 if (response.ok) {
                     AcsRes = "1";
-                    const responseText = `{"Card":"31131","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+                    const responseText = `{"Card":"${Card}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
                     res.writeHead(200, { 'Content-Type': 'text/plain' });
                     return res.end(responseText);
                 }else{
-                const responseText = `{"Card":"31131","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
-                return res.end(responseText);
+                    const responseText = `{"Card":"${Card}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+                    res.writeHead(200, { 'Content-Type': 'text/plain' });
+                    return res.end(responseText);
                 }
+            
+            // const responseText = `{ "Card": "31131", "Systime": "2025-05-06T10:59:12.283209Z", "Voice": "刷卡测试语音", "ActIndex": "1", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
 
-                // const responseText = `{ "Card": "31131", "Systime": "2025-05-06T10:59:12.283209Z", "Voice": "刷卡测试语音", "ActIndex": "1", "AcsRes": "${AcsRes}", "Time": "5", "Note": "Description"}`;
-
-
-            }
-
+    }
         } catch (error) {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             return res.end(JSON.stringify({ error: 'Something went wrong', details: error.message }));

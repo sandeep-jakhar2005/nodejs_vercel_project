@@ -11,9 +11,9 @@ export async function getToken(req) {
             }
 
             const payload = {
-                email_id: "vimit@fitnessforce.com",
-                password: "Grip@123",
-                company_uuid: "4b802a49-c19d-11ef-96d5-0a25444c3ba5",
+                email_id: "access@fitnessforce.com",
+                password: "Access@1",
+                company_uuid: "4b80b906-c19d-11ef-96d5-0a25444c3ba5",
             };
 
             const apiUrl = `https://api.unifiedfitnessplatform.ai/token`;
