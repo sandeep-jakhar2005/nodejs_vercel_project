@@ -19,6 +19,9 @@ export default async function handler(req, res) {
 
                 const token = await getToken(req);
                 const { type, Serial, ID, Reader, Status, Card, Index, Now } = req.query;
+
+                console.log('Card Number:', Card);
+
                 const tenantId = "e0cfeb14-f712-45de-bad2-6d2139842ac7";
                 let payload = {};
                 let ActIndex = "";
