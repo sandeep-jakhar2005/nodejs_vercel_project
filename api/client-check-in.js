@@ -119,8 +119,11 @@ export default async function handler(req, res) {
 
     }
         } catch (error) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            return res.end(JSON.stringify({ error: 'Something went wrong', details: error.message }));
+            const responseText = `{"Card":"${decoded}","Voice":"--","ActIndex":"${ActIndex}","AcsRes": "${AcsRes}","Time":"1","Systime":"${formatted}","Note":"--","Name":"--"}`;
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            return res.end(responseText);
+            // res.writeHead(500, { 'Content-Type': 'application/json' });
+            // return res.end(JSON.stringify({ error: 'Something went wrong', details: error.message }));
         }
     }
 }
