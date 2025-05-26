@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
                 console.log('Card Number:', Card);
 
-                const tenantId = "e0cfeb14-f712-45de-bad2-6d2139842ac7";
+                const tenantId = 232;
                 let payload = {};
                 let ActIndex = "";
                 if (Reader === '0') {
